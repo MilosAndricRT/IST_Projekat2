@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI\\WebAPI.csproj": {}
+    "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI\\WebAPI.csproj": {
+    "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI\\WebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI\\WebAPI.csproj",
+        "projectPath": "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI.csproj",
         "packagesPath": "C:\\Users\\MilosPC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\WebAPI\\obj\\",
+        "outputPath": "C:\\Users\\MilosPC\\Desktop\\IST_Projekat2\\WebAPI\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
