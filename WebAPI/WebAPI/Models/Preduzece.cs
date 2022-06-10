@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Models
+﻿namespace mojePreduzece.Models
 {
     public class Preduzece
     {
