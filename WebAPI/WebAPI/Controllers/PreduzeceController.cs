@@ -10,7 +10,9 @@ namespace mojePreduzece.Controllers
     {
         Preduzece[] preduzece = new Preduzece[]
         {
-            new Preduzece{ime="nesto",prezime="nesto2",email="nesto@gmail.com",naziv="nesto3",adresa="nesto4",PIB= 456234321}
+            new Preduzece{ime="Milan",prezime="Milanovic",email="milanmilanovic@gmail.com",naziv="PanAuto",adresa="Pancevo",PIB= 456234321},
+            new Preduzece{ime="Luka",prezime="Lukic",email="lukalukic@gmail.com",naziv="Lancast",adresa="Novi Sad",PIB=273234592},
+            new Preduzece{ime="Ana",prezime="Nikolic",email="ananikolic@gmail.com",naziv="IDJ",adresa ="Nis",PIB =537852917}
         };
         [HttpGet]       
         public IEnumerable<Preduzece> ukupanBrojPreduzeca()
