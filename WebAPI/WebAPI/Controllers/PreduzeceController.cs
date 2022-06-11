@@ -81,10 +81,14 @@ namespace mojePreduzece.Controllers
         {
             if(PIB<99999999 && PIB>1000000000)
             {
+                return false;
+            }
+            else
+            {
                 return true;
             }
 
-            return false;
+            
         }
     }
 }
