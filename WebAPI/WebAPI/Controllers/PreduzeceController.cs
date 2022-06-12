@@ -19,6 +19,7 @@ namespace mojePreduzece.Controllers
         {
             return Ok(preduzeca.OrderBy(Preduzece => Preduzece.PIB).ThenBy(Preduzece => Preduzece.naziv));
         }
+        
 
         [HttpPost("dodajPreduzece")]
         public IActionResult dodavanje([FromForm] string ime, [FromForm] string prezime, [FromForm] string email, [FromForm] string naziv, [FromForm] string adresa, [FromForm] double PIB)
@@ -46,7 +47,7 @@ namespace mojePreduzece.Controllers
         }
 
         [HttpPost("izmeniPreduzece")]
-        public IActionResult izmeniPreduzece([FromForm] string ime, [FromForm] string prezime, [FromForm] string email, [FromForm] string naziv, [FromForm] string adresa, [FromForm] double PIB,[FromForm] double PIBstari)
+        public IActionResult izmeniPreduzece([FromForm] string ime, [FromForm] string prezime, [FromForm] string email, [FromForm] string naziv, [FromForm] string adresa, [FromForm] double PIB, [FromForm] double PIBstari)
         {
             if (proveraPib(PIB))
             {
@@ -76,10 +77,9 @@ namespace mojePreduzece.Controllers
             preduzeca[pozicija] = preduzece;
             return Ok(preduzece);
         }
-
         private bool proveraPib(double PIB)
         {
-            if(PIB<99999999 && PIB>1000000000)
+            if (PIB > 99999999 && PIB < 1000000000)
             {
                 return false;
             }
@@ -87,8 +87,7 @@ namespace mojePreduzece.Controllers
             {
                 return true;
             }
-
-            
         }
+
     }
 }
