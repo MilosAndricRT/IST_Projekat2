@@ -9,6 +9,9 @@
         public string datumPlacanja { get; set; }
         public double ukupnaCena { get; set; }
         public string tipFakture { get; set; }
-        public List<stavkaFakture> stavke { get; set; }
+        public string naziv { get; set; }
+        public int cenaPoJediniciMere { get; set; }
+        public string jedinicaMere { get; set; }
+        public int kolicina { get; set; }
     }
 }
