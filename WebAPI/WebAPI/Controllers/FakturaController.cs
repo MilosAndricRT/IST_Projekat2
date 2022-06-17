@@ -38,8 +38,8 @@ namespace mojePreduzece.Controllers
             }
             return Ok(fakturaList);
         }
-        [HttpGet("bilans/{PIB}/{Od}/{Do}")]
-        public IActionResult bilans(double PIB,string Od,string Do)
+        [HttpPost("bilans")]
+        public IActionResult bilans([FromForm] double PIB, [FromForm] string Od, [FromForm] string Do)
         {
             double ukupno=0;
             DateTime Odd=Convert.ToDateTime(Od.Replace("%2F","/"));
@@ -80,7 +80,10 @@ namespace mojePreduzece.Controllers
             {
                 return Ok("PIB2 je u netacnom formatu!!!");
             }
-
+            if (proveraTipa(tipFakture))
+            {
+                return Ok("Pogresan upisan tip fakture pokusajte opet");
+            }
             string drugaFaktura = "";
             if (tipFakture == "ulazna")
             {
@@ -130,6 +133,11 @@ namespace mojePreduzece.Controllers
             {
                 return Ok("PIB2 je u netacnom formatu!!!");
             }
+            if (proveraTipa(tipFakture))
+            {
+                return Ok("Pogresan upisan tip fakture pokusajte opet");
+            }
+            
             int pozicija = -1;
             for (int i = 0; i < fakture.Count; i++)
             {
@@ -181,6 +189,15 @@ namespace mojePreduzece.Controllers
                 }
             }
             return resenje+1;
+        }
+        private bool proveraTipa(String tip)
+        {
+            if (tip.Equals("ulazna") || tip.Equals("izlazna"))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
