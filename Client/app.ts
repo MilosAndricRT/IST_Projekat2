@@ -188,6 +188,60 @@ class RadSaPrikazom{
         });
     }
     
+    static filtrirajFakturePoNazivu(div:HTMLElement){
+        let enterprises=[];
+        let url = "http://localhost:5292/api/Faktura/filtrirajFakturuPoNazivu";
+        let pib = document.getElementById("filter1") as HTMLInputElement;
+        fetch(url + `/${pib.value}`).then(resp => resp.json()).then((data) => {
+        
+            div.innerHTML =""
+            data.forEach(item=>{
+                            div.innerHTML +=`
+                            <button id="${item.id}" class="${item.tipFakture}">
+                            <ul>
+                            <oi>ID: ${item.id}||</oi>
+                            <oi>Pib: ${item.pib}||</oi>
+                            <oi>PIB kome saljemo: ${item.piB2}||</oi>
+                            <oi>Datum generisanja: ${item.datumGenerisanja}||</oi>
+                            <oi>Datum placanja: ${item.datumPlacanja}||</oi>
+                            <oi>Ukupna cena: ${item.ukupnaCena}||</oi>
+                            <oi>Tip fakture: ${item.tipFakture}||</oi>
+                            <oi>Naziv: ${item.naziv}||</oi>
+                            <oi>Cena po jedinici mere: ${item.cenaPoJediniciMere}||</oi>
+                            <oi>Jedinica mere: ${item.jedinicaMere}||</oi>
+                            <oi>Kolicina: ${item.kolicina}</oi>
+                            </ul> </button>
+                            `
+       
+        }).catch(err => console.log(err))
+    })}
+    static filtrirajFakturePoCeni(div:HTMLElement){
+        let enterprises=[];
+        let url = "http://localhost:5292/api/Faktura/filtrirajFakturuPoCeni";
+        let name = document.getElementById("filter2") as HTMLInputElement;
+        fetch(url + `/${name.value}`).then(resp => resp.json()).then((data) => {
+            div.innerHTML =""
+            data.forEach(item=>{
+                            div.innerHTML +=`
+                            <button id="${item.id}" class="${item.tipFakture}">
+                            <ul>
+                            <oi>ID: ${item.id}||</oi>
+                            <oi>Pib: ${item.pib}||</oi>
+                            <oi>PIB kome saljemo: ${item.piB2}||</oi>
+                            <oi>Datum generisanja: ${item.datumGenerisanja}||</oi>
+                            <oi>Datum placanja: ${item.datumPlacanja}||</oi>
+                            <oi>Ukupna cena: ${item.ukupnaCena}||</oi>
+                            <oi>Tip fakture: ${item.tipFakture}||</oi>
+                            <oi>Naziv: ${item.naziv}||</oi>
+                            <oi>Cena po jedinici mere: ${item.cenaPoJediniciMere}||</oi>
+                            <oi>Jedinica mere: ${item.jedinicaMere}||</oi>
+                            <oi>Kolicina: ${item.kolicina}</oi>
+                            </ul> </button>
+                            `
+        
+        }).catch(err => console.log(err))
+    })
+}
 }
 
 class DodajPreduzece{
@@ -288,6 +342,8 @@ let nameInput = document.querySelector("#name")  as HTMLInputElement;
 const btnFilter=document.getElementById("btnFilter") as HTMLButtonElement;
 var divshowInvoice=document.querySelector("#showInvoices") as HTMLDivElement;
 
+
+
 btnFilter.addEventListener("click", () => {
     if(pibInput.value !="" && nameInput.value!="")
     {
@@ -301,3 +357,18 @@ btnFilter.addEventListener("click", () => {
     }
 })
 
+document.addEventListener('click',function(e){
+    const target=e.target as Element;
+    if(target && target.className=="btnShowInvoiceFilter"){
+            let amount = document.getElementById("filter2") as HTMLInputElement;
+            let name = document.getElementById("filter1") as HTMLInputElement;
+            if(amount.value != "" && name.value == ""){
+                RadSaPrikazom.filtrirajFakturePoCeni(divshowInvoice); 
+            }
+            if(name.value != "" && amount.value == ""){
+                RadSaPrikazom.filtrirajFakturePoNazivu(divshowInvoice); 
+            }
+    
+    
+        }
+    })

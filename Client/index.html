@@ -10,10 +10,12 @@
 <body>
     <div id="showDiv">
         <input type="text" placeholder="PIB" name="pib" id="pib">
+        <input type="text" placeholder="Ime" name="pib" id="name">
+        <button id="btnFilter" class="inputbtn">Filtriraj preduzece</button><br>
 
-        <input type="text" placeholder="NAME" name="pib" id="name">
-
-        <button id="btnFilter" class="inputbtn">FILTER</button>
+        <input type="string" placeholder="naziv" name="pib" id="filter1">
+        <input type="number" placeholder="cena" name="pib" id="filter2">
+        <button id="" class="btnShowInvoiceFilter">Filtriraj fakturu</button>
     </div>
     <div id="celina">
         <button id="dugme">Prikaz svih preduzeca</button>
@@ -22,7 +24,9 @@
     </div>
     
     <div id="showInvoices"></div>
+    
     <div id="preduzeca"></div>
+    
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

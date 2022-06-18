@@ -202,6 +202,18 @@ namespace mojePreduzece.Controllers
             fakture[pozicija] = fak;
             return Ok(fak);
         }
+        [HttpGet("filtrirajFakturuPoNazivu/{svojstvo}")]
+        public IActionResult FilterByInvoiceName(string svojstvo)
+        {
+            var podatak = fakture.Where(Preduzece => Preduzece.naziv == svojstvo);
+            return Ok(podatak);
+        }
+        [HttpGet("filtrirajFakturuPoCeni/{svojstvo}")]
+        public IActionResult FilterByInvoiceAmount(double svojstvo)
+        {
+            var podatak = fakture.Where(Preduzece => Preduzece.ukupnaCena.ToString() == svojstvo.ToString());
+            return Ok(podatak);
+        }
         private bool proveraPib(double PIB)
         {
             if (PIB > 99999999 && PIB < 1000000000)

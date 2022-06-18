@@ -63,7 +63,7 @@ var RadSaPrikazom = /** @class */ (function () {
         div.innerHTML = "";
         $.ajax(settings).done(function (response) {
             response.forEach(function (item) {
-                div.innerHTML += "\n                <button id=\"".concat(item.id, "\" class=\"").concat(item.tipFakture, "\">\n                <ul>\n                <oi>ID: ").concat(item.id, " ||</oi>\n                <oi>Pib: ").concat(item.pib, " ||</oi>\n                <oi>PIB kome saljemo: ").concat(item.piB2, " ||</oi>\n                <oi>Datum generisanja: ").concat(item.datumGenerisanja, " ||</oi>\n                <oi>Datum placanja: ").concat(item.datumPlacanja, " ||</oi>\n                <oi>Ukupna cena: ").concat(item.ukupnaCena, " ||</oi>\n                <oi>Tip fakture: ").concat(item.tipFakture, " ||</oi>\n                <oi>Naziv: ").concat(item.naziv, " ||</oi>\n                <oi>Cena po jedinici mere: ").concat(item.cenaPoJediniciMere, " ||</oi>\n                <oi>Jedinica mere: ").concat(item.jedinicaMere, " ||</oi>\n                <oi>Kolicina: ").concat(item.kolicina, "</oi>\n            </ul> </button>\n                ");
+                div.innerHTML += "\n                <button id=\"".concat(item.id, "\" class=\"").concat(item.tipFakture, "\">\n                <ul>\n                <oi>ID: ").concat(item.id, "||</oi>\n                <oi>Pib: ").concat(item.pib, "||</oi>\n                <oi>PIB kome saljemo: ").concat(item.piB2, "||</oi>\n                <oi>Datum generisanja: ").concat(item.datumGenerisanja, "||</oi>\n                <oi>Datum placanja: ").concat(item.datumPlacanja, "||</oi>\n                <oi>Ukupna cena: ").concat(item.ukupnaCena, "||</oi>\n                <oi>Tip fakture: ").concat(item.tipFakture, "||</oi>\n                <oi>Naziv: ").concat(item.naziv, "||</oi>\n                <oi>Cena po jedinici mere: ").concat(item.cenaPoJediniciMere, "||</oi>\n                <oi>Jedinica mere: ").concat(item.jedinicaMere, "||</oi>\n                <oi>Kolicina: ").concat(item.kolicina, "</oi>\n            </ul> </button>\n                ");
             });
             div.innerHTML += "<ul class=\"pagination\">\n            <li class=\"page-item\"><a class=\"page-link\" id=\"previous_page\" data-page=".concat(page - 1, ">Previous</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" id=\"next_page\" data-page=").concat(page + 1, ">Next</a></li>\n          </ul>");
             document.querySelector("#previous_page").addEventListener("click", function () {
@@ -77,6 +77,28 @@ var RadSaPrikazom = /** @class */ (function () {
                 var page = parseInt(document.querySelector("#next_page").getAttribute("data-page"));
                 RadSaPrikazom.prikaziFaktureTest(div, id, page);
             });
+        });
+    };
+    RadSaPrikazom.filtrirajFakturePoNazivu = function (div) {
+        var enterprises = [];
+        var url = "http://localhost:5292/api/Faktura/filtrirajFakturuPoNazivu";
+        var pib = document.getElementById("filter1");
+        fetch(url + "/".concat(pib.value)).then(function (resp) { return resp.json(); }).then(function (data) {
+            div.innerHTML = "";
+            data.forEach(function (item) {
+                div.innerHTML += "\n                            <button id=\"".concat(item.id, "\" class=\"").concat(item.tipFakture, "\">\n                            <ul>\n                            <oi>ID: ").concat(item.id, "||</oi>\n                            <oi>Pib: ").concat(item.pib, "||</oi>\n                            <oi>PIB kome saljemo: ").concat(item.piB2, "||</oi>\n                            <oi>Datum generisanja: ").concat(item.datumGenerisanja, "||</oi>\n                            <oi>Datum placanja: ").concat(item.datumPlacanja, "||</oi>\n                            <oi>Ukupna cena: ").concat(item.ukupnaCena, "||</oi>\n                            <oi>Tip fakture: ").concat(item.tipFakture, "||</oi>\n                            <oi>Naziv: ").concat(item.naziv, "||</oi>\n                            <oi>Cena po jedinici mere: ").concat(item.cenaPoJediniciMere, "||</oi>\n                            <oi>Jedinica mere: ").concat(item.jedinicaMere, "||</oi>\n                            <oi>Kolicina: ").concat(item.kolicina, "</oi>\n                            </ul> </button>\n                            ");
+            })["catch"](function (err) { return console.log(err); });
+        });
+    };
+    RadSaPrikazom.filtrirajFakturePoCeni = function (div) {
+        var enterprises = [];
+        var url = "http://localhost:5292/api/Faktura/filtrirajFakturuPoCeni";
+        var name = document.getElementById("filter2");
+        fetch(url + "/".concat(name.value)).then(function (resp) { return resp.json(); }).then(function (data) {
+            div.innerHTML = "";
+            data.forEach(function (item) {
+                div.innerHTML += "\n                            <button id=\"".concat(item.id, "\" class=\"").concat(item.tipFakture, "\">\n                            <ul>\n                            <oi>ID: ").concat(item.id, "||</oi>\n                            <oi>Pib: ").concat(item.pib, "||</oi>\n                            <oi>PIB kome saljemo: ").concat(item.piB2, "||</oi>\n                            <oi>Datum generisanja: ").concat(item.datumGenerisanja, "||</oi>\n                            <oi>Datum placanja: ").concat(item.datumPlacanja, "||</oi>\n                            <oi>Ukupna cena: ").concat(item.ukupnaCena, "||</oi>\n                            <oi>Tip fakture: ").concat(item.tipFakture, "||</oi>\n                            <oi>Naziv: ").concat(item.naziv, "||</oi>\n                            <oi>Cena po jedinici mere: ").concat(item.cenaPoJediniciMere, "||</oi>\n                            <oi>Jedinica mere: ").concat(item.jedinicaMere, "||</oi>\n                            <oi>Kolicina: ").concat(item.kolicina, "</oi>\n                            </ul> </button>\n                            ");
+            })["catch"](function (err) { return console.log(err); });
         });
     };
     return RadSaPrikazom;
@@ -138,5 +160,18 @@ btnFilter.addEventListener("click", function () {
     }
     else if (nameInput.value != "") {
         RadSaPrikazom.prikaziFiltriranjePoNazivu(document.querySelector("#preduzeca"));
+    }
+});
+document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (target && target.className == "btnShowInvoiceFilter") {
+        var amount = document.getElementById("filter2");
+        var name_1 = document.getElementById("filter1");
+        if (amount.value != "" && name_1.value == "") {
+            RadSaPrikazom.filtrirajFakturePoCeni(divshowInvoice);
+        }
+        if (name_1.value != "" && amount.value == "") {
+            RadSaPrikazom.filtrirajFakturePoNazivu(divshowInvoice);
+        }
     }
 });
