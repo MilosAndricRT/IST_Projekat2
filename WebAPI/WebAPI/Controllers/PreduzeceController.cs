@@ -77,6 +77,34 @@ namespace mojePreduzece.Controllers
             preduzeca[pozicija] = preduzece;
             return Ok(preduzece);
         }
+        [HttpGet("filtrirajPreduzecePoPibu")]
+        public IActionResult FilterByEnteprisPIB(string promenljiva)
+        {
+            var podatak = preduzeca.Where(Preduzece => Preduzece.PIB.ToString().Contains(promenljiva.ToString()))
+                .OrderBy(Preduzece => Preduzece.PIB)
+                .Select(Preduzece => Preduzece);
+            return Ok(podatak);
+        }
+        [HttpGet("filtrirajPreduzecePoNazivu/{Naziv}")]
+        public IActionResult FilterPreduzece(string Naziv)
+        {
+            var podatak = preduzeca.Where(Preduzece => Preduzece.naziv.Contains(Naziv));
+            if (podatak == null)
+            {
+                return NotFound("Page not found");
+            }
+            return Ok(podatak);
+        }
+        [HttpGet("filtrirajPreduzecePoNazivuIPibu/{Naziv}/{PIB}")]
+        public IActionResult FilterByEnteprisPIBandName(string Naziv, string PIB)
+        {
+            var podatak = preduzeca.Where(Preduzece => Preduzece.naziv.Contains(Naziv) && Preduzece.PIB.ToString().Contains(PIB.ToString()));
+            if (podatak == null)
+            {
+                return NotFound("Page not found");
+            }
+            return Ok(podatak);
+        }
         private bool proveraPib(double PIB)
         {
             if (PIB > 99999999 && PIB < 1000000000)

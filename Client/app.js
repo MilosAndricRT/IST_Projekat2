@@ -14,6 +14,32 @@ var RadSaPrikazom = /** @class */ (function () {
         });
         return prikaz;
     };
+    RadSaPrikazom.prikaziFiltriranjePoPibu = function (div) {
+        var enterprises = [];
+        var url = "http://localhost:5292/api/Preduzece/filtrirajPreduzecePoPibu";
+        var pib = document.getElementById("pib");
+        fetch(url + "?promenljiva=".concat(pib.value)).then(function (resp) { return resp.json(); }).then(function (data) {
+            console.log(data);
+            div.innerHTML = "\n            <div class=\"accordion accordion-flush\" id=\"accordionFlushExample\">".concat(RadSaPrikazom.prikaziDetaljePreduzeca(data), "</div>");
+        })["catch"](function (err) { return console.log(err); });
+    };
+    RadSaPrikazom.prikaziFiltriranjePoNazivu = function (div) {
+        var enterprises = [];
+        var url = "http://localhost:5292/api/Preduzece/filtrirajPreduzecePoNazivu";
+        var name = document.getElementById("name");
+        fetch(url + "/".concat(name.value)).then(function (resp) { return resp.json(); }).then(function (data) {
+            div.innerHTML = "\n            <div class=\"accordion accordion-flush\" id=\"accordionFlushExample\">".concat(RadSaPrikazom.prikaziDetaljePreduzeca(data), "</div>");
+        })["catch"](function (err) { return console.log(err); });
+    };
+    RadSaPrikazom.prikaziFiltriranjePoPibuINazivu = function (div) {
+        var enterprises = [];
+        var url = "http://localhost:5292/api/Preduzece/filtrirajPreduzecePoNazivuIPibu";
+        var name = document.getElementById("name");
+        var pib = document.getElementById("pib");
+        fetch(url + "/".concat(name.value, "/").concat(pib.value)).then(function (resp) { return resp.json(); }).then(function (data) {
+            div.innerHTML = "\n            <div class=\"accordion accordion-flush\" id=\"accordionFlushExample\">".concat(RadSaPrikazom.prikaziDetaljePreduzeca(data), "</div>");
+        })["catch"](function (err) { return console.log(err); });
+    };
     RadSaPrikazom.prikaziDetaljeFaktura = function (timovi) {
         var prikaz = "";
         timovi.forEach(function (t) {
@@ -102,3 +128,17 @@ var dugme = document.getElementById("dugme");
 dugme.addEventListener('click', function (e) { return RadSaPrikazom.prikaziPreduzeca(document.querySelector("#preduzeca")); });
 var dugmee = document.getElementById("dodajPreduzece");
 dugmee.addEventListener('click', function (e) { return DodajPreduzece.dodajPreduzece(); });
+var pibInput = document.querySelector("#pib");
+var nameInput = document.querySelector("#name");
+var btnFilter = document.getElementById("btnFilter");
+btnFilter.addEventListener("click", function () {
+    if (pibInput.value != "" && nameInput.value != "") {
+        RadSaPrikazom.prikaziFiltriranjePoPibuINazivu(document.querySelector("#preduzeca"));
+    }
+    else if (pibInput.value != "") {
+        RadSaPrikazom.prikaziFiltriranjePoPibu(document.querySelector("#preduzeca"));
+    }
+    else if (nameInput.value != "") {
+        RadSaPrikazom.prikaziFiltriranjePoNazivu(document.querySelector("#preduzeca"));
+    }
+});

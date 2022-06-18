@@ -10,9 +10,9 @@ namespace mojePreduzece.Controllers
     {
         static List<Faktura> fakture = new List<Faktura>()
         {
-            new Faktura{ id=1,PIB=456234321,PIB2=537852917,datumGenerisanja="01/02/2022",datumPlacanja="testdatumplacanja",ukupnaCena=1000,tipFakture="ulazna",naziv="testnaziv1",cenaPoJediniciMere=15,jedinicaMere="kg",kolicina=5},
-            new Faktura{ id=2,PIB=456234321,PIB2=542685398,datumGenerisanja="02/06/2022",datumPlacanja="testdatumplacanja1",ukupnaCena=1001,tipFakture="izlazna",naziv="testnaziv2",cenaPoJediniciMere=10,jedinicaMere="kg",kolicina=3},
-            new Faktura{ id=3,PIB=273234592,PIB2=421754368,datumGenerisanja="01/02/2018",datumPlacanja="testdatumplacanja2",ukupnaCena=30,tipFakture="ulazna",naziv="testnaziv3",cenaPoJediniciMere=5,jedinicaMere="kg",kolicina=4}
+            //new Faktura{ id=1,PIB=456234321,PIB2=537852917,datumGenerisanja="01/02/2022",datumPlacanja="testdatumplacanja",ukupnaCena=1000,tipFakture="ulazna",naziv="testnaziv1",cenaPoJediniciMere=15,jedinicaMere="kg",kolicina=5},
+            //new Faktura{ id=2,PIB=456234321,PIB2=542685398,datumGenerisanja="02/06/2022",datumPlacanja="testdatumplacanja1",ukupnaCena=1001,tipFakture="izlazna",naziv="testnaziv2",cenaPoJediniciMere=10,jedinicaMere="kg",kolicina=3},
+            //new Faktura{ id=3,PIB=273234592,PIB2=421754368,datumGenerisanja="01/02/2018",datumPlacanja="testdatumplacanja2",ukupnaCena=30,tipFakture="ulazna",naziv="testnaziv3",cenaPoJediniciMere=5,jedinicaMere="kg",kolicina=4}
         };
         [HttpGet("sveFakture/{strana}")]
         public IActionResult sveFakture(int strana)
@@ -65,7 +65,15 @@ namespace mojePreduzece.Controllers
                     {
                         ukupno -= item.ukupnaCena;
                     }
+                    
                 }  
+                //else if(item.PIB2==PIB)
+                //{
+                //    if(item.tipFakture =="izlazna")
+                //    {
+                //        ukupno -= item.ukupnaCena;
+                //    }
+                //}
             }
             return Ok(ukupno);
         }

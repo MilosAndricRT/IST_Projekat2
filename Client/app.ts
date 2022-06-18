@@ -67,6 +67,39 @@ class RadSaPrikazom{
         })
         return prikaz
     }
+    static prikaziFiltriranjePoPibu(div:HTMLElement){
+        let enterprises=[];
+        let url = "http://localhost:5292/api/Preduzece/filtrirajPreduzecePoPibu";
+        let pib = document.getElementById("pib") as HTMLInputElement;
+        fetch(url + `?promenljiva=${pib.value}`).then(resp => resp.json()).then((data) => {
+            console.log(data)
+            div.innerHTML =`
+            <div class="accordion accordion-flush" id="accordionFlushExample">${RadSaPrikazom.prikaziDetaljePreduzeca(data)}</div>`
+       
+        }).catch(err => console.log(err))
+    }
+
+    static prikaziFiltriranjePoNazivu(div:HTMLElement){
+        let enterprises=[];
+        let url = "http://localhost:5292/api/Preduzece/filtrirajPreduzecePoNazivu";
+        let name = document.getElementById("name") as HTMLInputElement;
+        fetch(url + `/${name.value}`).then(resp => resp.json()).then((data) => {
+
+            div.innerHTML =`
+            <div class="accordion accordion-flush" id="accordionFlushExample">${RadSaPrikazom.prikaziDetaljePreduzeca(data)}</div>`
+        }).catch(err => console.log(err))
+    }
+
+    static prikaziFiltriranjePoPibuINazivu(div:HTMLElement){
+        let enterprises=[];
+        let url = "http://localhost:5292/api/Preduzece/filtrirajPreduzecePoNazivuIPibu";
+        let name = document.getElementById("name") as HTMLInputElement;
+        let pib = document.getElementById("pib") as HTMLInputElement;
+        fetch(url + `/${name.value}/${pib.value}`).then(resp => resp.json()).then((data) => {
+            div.innerHTML =`
+            <div class="accordion accordion-flush" id="accordionFlushExample">${RadSaPrikazom.prikaziDetaljePreduzeca(data)}</div>`
+        }).catch(err => console.log(err))
+    }
     static prikaziDetaljeFaktura(timovi:Array<Faktura>){
         let prikaz="";
         timovi.forEach(t=>{
@@ -214,7 +247,6 @@ class IzmeniPreduzece{
 
 class IzmenaFakture{    
     static izmenaFakture(id,pib, pib2, dg, dp, uc, tip, naz, cpj, jm, kol){
-      
     document.getElementById("ovdeforma-izmenafak-"+id).innerHTML=`<form id="postForm" class="editForm" action="http://localhost:5292/api/Faktura/izmeniFakturu" method="post">
     <input type="hidden" name="id" value="${id}"><br>
     <input type="hidden" name="PIB" value="${pib}"><br>
@@ -232,7 +264,7 @@ class IzmenaFakture{
    
 }
 }
-
+    
 const dugme:HTMLButtonElement=document.getElementById("dugme") as HTMLButtonElement;
 
 dugme.addEventListener('click',(e:Event)=>RadSaPrikazom.prikaziPreduzeca(document.querySelector("#preduzeca")));
@@ -241,4 +273,21 @@ dugme.addEventListener('click',(e:Event)=>RadSaPrikazom.prikaziPreduzeca(documen
 const dugmee:HTMLButtonElement=document.getElementById("dodajPreduzece") as HTMLButtonElement;
 
 dugmee.addEventListener('click',(e:Event)=>DodajPreduzece.dodajPreduzece());
+
+let pibInput = document.querySelector("#pib") as HTMLInputElement;
+let nameInput = document.querySelector("#name")  as HTMLInputElement;
+const btnFilter=document.getElementById("btnFilter") as HTMLButtonElement;
+
+btnFilter.addEventListener("click", () => {
+    if(pibInput.value !="" && nameInput.value!="")
+    {
+        RadSaPrikazom.prikaziFiltriranjePoPibuINazivu(document.querySelector("#preduzeca"))
+    }
+    else if (pibInput.value != "") {
+        RadSaPrikazom.prikaziFiltriranjePoPibu(document.querySelector("#preduzeca"));
+    } else if (nameInput.value != "") {
+
+        RadSaPrikazom.prikaziFiltriranjePoNazivu(document.querySelector("#preduzeca"));
+    }
+})
 
