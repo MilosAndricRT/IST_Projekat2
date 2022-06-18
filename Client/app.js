@@ -49,9 +49,7 @@ var RadSaPrikazom = /** @class */ (function () {
     };
     RadSaPrikazom.listajFaktureZa = function (pib) {
         settings.url = "http://localhost:5292/api/Faktura/".concat(pib, "/0");
-        $.ajax(settings).done(function (response) {
-            document.getElementById("ovdelistaFak-" + pib).innerHTML = "\n        <div class=\"accordion accordion-flush\" id=\"accordionFlushExample\">".concat(RadSaPrikazom.prikaziDetaljeFaktura(response), "</div>\n        ");
-        });
+        RadSaPrikazom.prikaziFaktureTest(divshowInvoice, pib, 1);
     };
     RadSaPrikazom.prikaziPreduzeca = function (div) {
         settings.url = "http://localhost:5292/api/Preduzece/ukupanBrojPreduzeca";
@@ -60,25 +58,24 @@ var RadSaPrikazom = /** @class */ (function () {
             div.innerHTML = "\n        <div class=\"accordion accordion-flush\" id=\"accordionFlushExample\">".concat(RadSaPrikazom.prikaziDetaljePreduzeca(response), "</div>\n        ");
         });
     };
-    RadSaPrikazom.prikaziFakture = function (pib, page) {
-        var div = document.getElementById("ovdelistaFak-" + pib);
-        settings.url = "http://localhost:5292/api/Faktura/sveFakture/".concat(page);
+    RadSaPrikazom.prikaziFaktureTest = function (div, id, page) {
+        settings.url = "http://localhost:5292/api/Faktura/".concat(id, "/").concat(page);
         div.innerHTML = "";
         $.ajax(settings).done(function (response) {
-            response.data.forEach(function (i) {
-                div.innerHTML += "<p>".concat(i.pib, " ").concat(i.piB2, " - ").concat(i.naziv, "</p>");
+            response.forEach(function (item) {
+                div.innerHTML += "\n                <button id=\"".concat(item.id, "\" class=\"").concat(item.tipFakture, "\">\n                <ul>\n                <oi>ID: ").concat(item.id, " ||</oi>\n                <oi>Pib: ").concat(item.pib, " ||</oi>\n                <oi>PIB kome saljemo: ").concat(item.piB2, " ||</oi>\n                <oi>Datum generisanja: ").concat(item.datumGenerisanja, " ||</oi>\n                <oi>Datum placanja: ").concat(item.datumPlacanja, " ||</oi>\n                <oi>Ukupna cena: ").concat(item.ukupnaCena, " ||</oi>\n                <oi>Tip fakture: ").concat(item.tipFakture, " ||</oi>\n                <oi>Naziv: ").concat(item.naziv, " ||</oi>\n                <oi>Cena po jedinici mere: ").concat(item.cenaPoJediniciMere, " ||</oi>\n                <oi>Jedinica mere: ").concat(item.jedinicaMere, " ||</oi>\n                <oi>Kolicina: ").concat(item.kolicina, "</oi>\n            </ul> </button>\n                ");
             });
-            div.innerHTML += "<ul class=\"pagination\">\n            <li class=\"page-item\"><a class=\"page-link\" id=\"previous_page\" data-page=".concat(response.meta.current_page - 1, ">Previous</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" id=\"next_page\" data-page=").concat(response.meta.next_page, ">Next</a></li>\n          </ul>");
+            div.innerHTML += "<ul class=\"pagination\">\n            <li class=\"page-item\"><a class=\"page-link\" id=\"previous_page\" data-page=".concat(page - 1, ">Previous</a></li>\n            <li class=\"page-item\"><a class=\"page-link\" id=\"next_page\" data-page=").concat(page + 1, ">Next</a></li>\n          </ul>");
             document.querySelector("#previous_page").addEventListener("click", function () {
                 var page = parseInt(document.querySelector("#previous_page").getAttribute("data-page"));
                 if (page < 0) {
                     page = 0;
                 }
-                RadSaPrikazom.prikaziFakture(document.querySelector("#fakture"), page);
+                RadSaPrikazom.prikaziFaktureTest(div, id, page);
             });
             document.querySelector("#next_page").addEventListener("click", function () {
                 var page = parseInt(document.querySelector("#next_page").getAttribute("data-page"));
-                RadSaPrikazom.prikaziFakture(document.querySelector("#fakture"), page);
+                RadSaPrikazom.prikaziFaktureTest(div, id, page);
             });
         });
     };
@@ -131,6 +128,7 @@ dugmee.addEventListener('click', function (e) { return DodajPreduzece.dodajPredu
 var pibInput = document.querySelector("#pib");
 var nameInput = document.querySelector("#name");
 var btnFilter = document.getElementById("btnFilter");
+var divshowInvoice = document.querySelector("#showInvoices");
 btnFilter.addEventListener("click", function () {
     if (pibInput.value != "" && nameInput.value != "") {
         RadSaPrikazom.prikaziFiltriranjePoPibuINazivu(document.querySelector("#preduzeca"));

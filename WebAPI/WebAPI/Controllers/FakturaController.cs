@@ -10,9 +10,9 @@ namespace mojePreduzece.Controllers
     {
         static List<Faktura> fakture = new List<Faktura>()
         {
-            //new Faktura{ id=1,PIB=456234321,PIB2=537852917,datumGenerisanja="01/02/2022",datumPlacanja="testdatumplacanja",ukupnaCena=1000,tipFakture="ulazna",naziv="testnaziv1",cenaPoJediniciMere=15,jedinicaMere="kg",kolicina=5},
-            //new Faktura{ id=2,PIB=456234321,PIB2=542685398,datumGenerisanja="02/06/2022",datumPlacanja="testdatumplacanja1",ukupnaCena=1001,tipFakture="izlazna",naziv="testnaziv2",cenaPoJediniciMere=10,jedinicaMere="kg",kolicina=3},
-            //new Faktura{ id=3,PIB=273234592,PIB2=421754368,datumGenerisanja="01/02/2018",datumPlacanja="testdatumplacanja2",ukupnaCena=30,tipFakture="ulazna",naziv="testnaziv3",cenaPoJediniciMere=5,jedinicaMere="kg",kolicina=4}
+            new Faktura{ id=1,PIB=456234321,PIB2=537852917,datumGenerisanja="01/02/2022",datumPlacanja="testdatumplacanja",ukupnaCena=1000,tipFakture="ulazna",naziv="testnaziv1",cenaPoJediniciMere=15,jedinicaMere="kg",kolicina=5},
+            new Faktura{ id=2,PIB=456234321,PIB2=542685398,datumGenerisanja="02/06/2022",datumPlacanja="testdatumplacanja1",ukupnaCena=1001,tipFakture="izlazna",naziv="testnaziv2",cenaPoJediniciMere=10,jedinicaMere="kg",kolicina=3},
+            new Faktura{ id=3,PIB=273234592,PIB2=421754368,datumGenerisanja="01/02/2018",datumPlacanja="testdatumplacanja2",ukupnaCena=30,tipFakture="ulazna",naziv="testnaziv3",cenaPoJediniciMere=5,jedinicaMere="kg",kolicina=4}
         };
         [HttpGet("sveFakture/{strana}")]
         public IActionResult sveFakture(int strana)
@@ -28,13 +28,40 @@ namespace mojePreduzece.Controllers
         public IActionResult faktureZaJednuFirmu(double PIB,int strana)
         {
             List<Faktura> fakturaList = new List<Faktura>();
-            for (int i = strana; i < strana + 10 && i < fakture.Count; i++)
+            int elementSparepage = 2;
+            int offset = (strana - 1) * elementSparepage;
+            int cutoff = offset + elementSparepage;
+            int br = 0;
+            for (int i = 0; i < fakture.Count; i++)
             {
-                if(fakture[i].PIB==PIB || fakture[i].PIB2==PIB)
+                if (fakture[i].PIB == PIB && fakture[i].tipFakture == "izlazna")
                 {
-                    fakturaList.Add(fakture[i]);
+                    if (br >= offset)
+                    {
+                        if (br >= cutoff)
+                        {
+                            break;
+                        }
+                        fakturaList.Add(fakture[i]);
+
+
+                    }
+                    br++;
                 }
-                
+                if (fakture[i].PIB2 == PIB && fakture[i].tipFakture == "ulazna")
+                {
+                    if (br >= offset)
+                    {
+                        if (br >= cutoff)
+                        {
+                            break;
+                        }
+                        fakturaList.Add(fakture[i]);
+
+
+                    }
+                    br++;
+                }
             }
             return Ok(fakturaList);
         }

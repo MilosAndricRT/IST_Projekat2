@@ -15,7 +15,6 @@ interface Preduzece{
     pib:number;
 }
 interface FakturaResponse{
-    data:Array<Faktura>;
     meta:{
         total_pages:number;
         current_page:number;
@@ -135,11 +134,7 @@ class RadSaPrikazom{
 
     static listajFaktureZa(pib){
         settings.url=`http://localhost:5292/api/Faktura/${pib}/0`
-        $.ajax(settings).done(function (response) {
-            document.getElementById("ovdelistaFak-" + pib).innerHTML =`
-        <div class="accordion accordion-flush" id="accordionFlushExample">${RadSaPrikazom.prikaziDetaljeFaktura(response)}</div>
-        `
-        });
+        RadSaPrikazom.prikaziFaktureTest(divshowInvoice,pib,1)
         
     }
 
@@ -153,28 +148,42 @@ class RadSaPrikazom{
         });
         
     }
-    static prikaziFakture(pib, page:number){
-       const div = document.getElementById("ovdelistaFak-" + pib);
-        settings.url=`http://localhost:5292/api/Faktura/sveFakture/${page}`
+    static prikaziFaktureTest(div:HTMLElement,id:string, page:number){
+        settings.url=`http://localhost:5292/api/Faktura/${id}/${page}`
         div.innerHTML=""
-        $.ajax(settings).done(function (response:FakturaResponse) {
-            response.data.forEach(i=>{
-                div.innerHTML+=`<p>${i.pib} ${i.piB2} - ${i.naziv}</p>`
+        $.ajax(settings).done(function (response) {
+            response.forEach(item=>{
+                div.innerHTML+=`
+                <button id="${item.id}" class="${item.tipFakture}">
+                <ul>
+                <oi>ID: ${item.id}||</oi>
+                <oi>Pib: ${item.pib}||</oi>
+                <oi>PIB kome saljemo: ${item.piB2}||</oi>
+                <oi>Datum generisanja: ${item.datumGenerisanja}||</oi>
+                <oi>Datum placanja: ${item.datumPlacanja}||</oi>
+                <oi>Ukupna cena: ${item.ukupnaCena}||</oi>
+                <oi>Tip fakture: ${item.tipFakture}||</oi>
+                <oi>Naziv: ${item.naziv}||</oi>
+                <oi>Cena po jedinici mere: ${item.cenaPoJediniciMere}||</oi>
+                <oi>Jedinica mere: ${item.jedinicaMere}||</oi>
+                <oi>Kolicina: ${item.kolicina}</oi>
+            </ul> </button>
+                `
             })
             div.innerHTML+=`<ul class="pagination">
-            <li class="page-item"><a class="page-link" id="previous_page" data-page=${response.meta.current_page-1}>Previous</a></li>
-            <li class="page-item"><a class="page-link" id="next_page" data-page=${response.meta.next_page}>Next</a></li>
+            <li class="page-item"><a class="page-link" id="previous_page" data-page=${page-1}>Previous</a></li>
+            <li class="page-item"><a class="page-link" id="next_page" data-page=${page+1}>Next</a></li>
           </ul>`
           document.querySelector("#previous_page").addEventListener("click",()=>{
             let page=parseInt(document.querySelector("#previous_page").getAttribute("data-page"));  
             if(page<0){
                 page=0;
             }
-            RadSaPrikazom.prikaziFakture(document.querySelector("#fakture"),page);
+            RadSaPrikazom.prikaziFaktureTest(div,id,page);
           })
           document.querySelector("#next_page").addEventListener("click",()=>{
             let page=parseInt(document.querySelector("#next_page").getAttribute("data-page"));
-            RadSaPrikazom.prikaziFakture(document.querySelector("#fakture"),page);
+            RadSaPrikazom.prikaziFaktureTest(div,id,page);
         })
         });
     }
@@ -277,6 +286,7 @@ dugmee.addEventListener('click',(e:Event)=>DodajPreduzece.dodajPreduzece());
 let pibInput = document.querySelector("#pib") as HTMLInputElement;
 let nameInput = document.querySelector("#name")  as HTMLInputElement;
 const btnFilter=document.getElementById("btnFilter") as HTMLButtonElement;
+var divshowInvoice=document.querySelector("#showInvoices") as HTMLDivElement;
 
 btnFilter.addEventListener("click", () => {
     if(pibInput.value !="" && nameInput.value!="")
